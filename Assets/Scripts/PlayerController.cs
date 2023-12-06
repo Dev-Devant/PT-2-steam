@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour{
     public float jumpForce = 10;
     public float gravityMod = 1;
     private bool jumping = false;
+    public bool gameOver = false;
 
     void Start()    {
         playerRB = GetComponent<Rigidbody>();       
@@ -22,7 +23,16 @@ public class PlayerController : MonoBehaviour{
     }
 
     void OnCollisionEnter(Collision collision){
-        jumping = false;
+        bool saltando = collision.gameObject.CompareTag("Terrain");
+        bool obs = collision.gameObject.CompareTag("Obstacle");
+        if(saltando){
+            jumping = false;
+        }
+
+        if(obs){
+            Debug.Log("Choco con una caja");
+            gameOver = true;
+        }
     }
 
 
