@@ -9,16 +9,19 @@ public class PlayerController : MonoBehaviour{
     public float gravityMod = 1;
     private bool jumping = false;
     public bool gameOver = false;
+    private Animator animController;
 
     void Start()    {
         playerRB = GetComponent<Rigidbody>();       
-        Physics.gravity *= gravityMod; 
+        Physics.gravity *= gravityMod;
+        animController = GetComponent<Animator>(); 
     }
 
     void Update()    {
         if (Input.GetKeyDown(KeyCode.Space) && !jumping){
             playerRB.AddForce( Vector3.up * jumpForce, ForceMode.Impulse);
             jumping = true;
+            animController.SetTrigger("Jump_trig");
         }
     }
 
