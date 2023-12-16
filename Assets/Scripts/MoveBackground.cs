@@ -8,6 +8,7 @@ public class MoveBackground : MonoBehaviour{
     public Vector3 initpos ;
     private float repeatWidth;
     private PlayerController pc;
+    // Aqui estoy
 
     void Start()    {       
         initpos = transform.position; 
