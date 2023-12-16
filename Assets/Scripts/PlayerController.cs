@@ -10,18 +10,30 @@ public class PlayerController : MonoBehaviour{
     private bool jumping = false;
     public bool gameOver = false;
     private Animator animController;
-
+    public GameObject particles;
+    public AudioClip jumpSFX;
+    public AudioClip crashSFX;
+    private AudioSource PlayerAS;
+    public GameObject image;
+    private float pitch;
     void Start()    {
         playerRB = GetComponent<Rigidbody>();       
         Physics.gravity *= gravityMod;
         animController = GetComponent<Animator>(); 
+        particles.GetComponent<ParticleSystem>().Play();
+        PlayerAS = GetComponent<AudioSource>();
+        pitch = PlayerAS.pitch;
     }
 
     void Update()    {
         if (Input.GetKeyDown(KeyCode.Space) && !jumping){
             playerRB.AddForce( Vector3.up * jumpForce, ForceMode.Impulse);
             jumping = true;
-            animController.SetTrigger("Jump_trig");
+            particles.GetComponent<ParticleSystem>().Stop();
+            PlayerAS.pitch = pitch + Random.Range(-0.1f,0.1f);
+            PlayerAS.PlayOneShot(jumpSFX,1.0f);
+
+            
         }
     }
 
@@ -30,11 +42,16 @@ public class PlayerController : MonoBehaviour{
         bool obs = collision.gameObject.CompareTag("Obstacle");
         if(saltando){
             jumping = false;
+            particles.GetComponent<ParticleSystem>().Play();
+            
         }
 
         if(obs){
-            Debug.Log("Choco con una caja");
+            PlayerAS.pitch = pitch + Random.Range(-0.1f,0.1f);
+            PlayerAS.PlayOneShot(crashSFX,1.0f);
             gameOver = true;
+            animController.SetBool("Death_b",true);
+            image.active = true;
         }
     }
 
