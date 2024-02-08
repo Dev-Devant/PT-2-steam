@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour{
             PlayerAS.PlayOneShot(crashSFX,1.0f);
             gameOver = true;
             animController.SetBool("Death_b",true);
-            image.active = true;
+            //image.active = true;
         }
     }
 
